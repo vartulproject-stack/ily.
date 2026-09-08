@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Aaradhya ✨</title>
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { 
+            background: linear-gradient(135deg, #0f0c20 0%, #1a102f 50%, #2a0826 100%); 
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; 
+            padding: 20px; overflow-x: hidden; position: relative; user-select: none;
+            color: #ffffff;
+        }
+
+        .stars-bg {
+            position: absolute; color: rgba(255, 182, 193, 0.4);
+            font-size: 16px; animation: float 6s infinite linear; bottom: -50px;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card { 
+            background: rgba(25, 20, 40, 0.85); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); 
+            width: 100%; max-width: 480px; padding: 30px 25px; text-align: center; 
+            position: relative; z-index: 10;
+        }
+
+        .layer { display: none; transition: all 0.4s ease; }
+        .layer.active { display: block; animation: fadeIn 0.6s ease-in-out; }
+        
+        h2 { color: #ff69b4; margin-bottom: 15px; font-size: 22px; text-shadow: 0 0 10px rgba(255, 105, 180, 0.3); }
+        p { color: #e0e0e0; line-height: 1.6; margin-bottom: 20px; font-size: 15px; }
+
+        /* Letter Container */
+        .letter-card {
+            background: rgba(15, 10, 25, 0.9);
+            border: 1px solid rgba(255, 105, 180, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            max-height: 380px;
+            overflow-y: auto;
+            margin: 15px 0;
+            box-shadow: inset 0 0 15px rgba(255, 105, 180, 0.1);
+        }
+
+        .letter-content {
+            font-size: 14px;
+            color: #f1e6ff;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        /* Proposal Buttons */
+        .btn-group {
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            margin-top: 20px; position: relative; min-height: 50px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white; border: none; padding: 12px 30px; font-size: 18px;
+            font-weight: bold; border-radius: 30px; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-yes:hover { transform: scale(1.1); }
+
+        .btn-no {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa; border: 1px solid #666; padding: 10px 20px; font-size: 14px;
+            border-radius: 30px; cursor: pointer; transition: all 0.2s ease;
+            position: absolute;
+        }
+
+        .emoji { font-size: 45px; margin-bottom: 10px; display: inline-block; animation: pulse 2s infinite; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    </style>
+</head>
+<body>
+
+<!-- Background Particles -->
+<div id="starsContainer"></div>
+
+<div class="card">
+
+    <!-- Layer 1: Letter Screen -->
+    <div class="layer active" id="layer1">
+        <div class="emoji">💌</div>
+        <h2>Ek Chhoti Si Dil Ki Baat…</h2>
+        <div class="letter-card" id="letterContainer">
+            <div class="letter-content" id="letterText"></div>
+        </div>
+        <div class="btn-group">
+            <button class="btn-yes" onclick="acceptProposal()">YES! 💖</button>
+            <button class="btn-no" id="noBtn" onmouseover="moveNoBtn()" onclick="moveNoBtn()">No 🙈</button>
+        </div>
+    </div>
+
+    <!-- Layer 2: Final Celebration -->
+    <div class="layer" id="layer2">
+        <div class="emoji">🌈</div>
+        <h2>Yay! You Made My World Beautiful! 💖</h2>
+        <p>Hamesha aise hi khush raho, mast raho aur mere saath chamakti raho, Aaradhya! Thank you for being in my life! ✨</p>
+    </div>
+
+</div>
+
+<script>
+    // Floating Background Stars
+    for(let i=0; i<15; i++) {
+        let star = document.createElement('div');
+        star.className = 'stars-bg';
+        star.innerHTML = ['✨', '🌸', '💫', '💖'][Math.floor(Math.random()*4)];
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        star.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(star);
+    }
+
+    function id(elem) { return document.getElementById(elem); }
+
+    // Exact Letter Text
+    const fullLetter = `Dear Aaradhya
+
+Pata nahi ye baat tumse kaise kahun, kyunki jab bhi tumhare baare mein sochta hoon, words kam pad jaate hain.
+
+Tumse baat karna, tumhari baatein sunna aur tumhare saath chhoti-chhoti cheezein share karna mujhe bahut achha lagta hai. Tumhara ek chhota sa message bhi mera din better bana deta hai. Shayad tumhe pata bhi nahi hai ki tum mere liye kitni special ho.
+
+Sach kahun toh ye letter likhte waqt bhi main thoda nervous hoon. Dil mein bahut saare questions hain—tum kya sochogi, tumhara answer kya hoga... Lekin main apni feelings tumse chhupana nahi chahta.
+
+Mujhe tum pasand ho. ❤️
+
+Tum isliye nahi pasand ho kyunki tum perfect ho, balki isliye kyunki tum jaisi ho, mujhe waise hi achhi lagti ho.
+
+Main tumse koi pressure ya zabardasti ka answer nahi chahta. Bas apne dil ki baat tumhare saamne rakhna chahta tha.
+
+Toh kya tum mujhe ek chance dogi, taaki hum ek-doosre ko aur achhe se jaan sakein aur is relationship ko ek beautiful beginning de sakein? ✨`;
+
+    /* Typewriter Effect for Letter */
+    let charIndex = 0;
+    window.onload = function() {
+        const letterBox = id('letterText');
+        letterBox.innerText = "";
+
+        let typingInterval = setInterval(() => {
+            if (charIndex < fullLetter.length) {
+                letterBox.innerText += fullLetter.charAt(charIndex);
+                charIndex++;
+                let container = id('letterContainer');
+                container.scrollTop = container.scrollHeight;
+            } else {
+                clearInterval(typingInterval);
+            }
+        }, 35);
+    };
+
+    /* Runaway No Button Effect */
+    function moveNoBtn() {
+        const btn = id('noBtn');
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 100 - 50;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    /* On Yes Click */
+    function acceptProposal() {
+        id('layer1').classList.remove('active');
+        id('layer2').classList.add('active');
+        triggerGrandConfetti();
+    }
+
+    /* Confetti Burst */
+    function triggerGrandConfetti() {
+        var duration = 3 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+            var particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    }
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+</script>
+
+</body>
+  </html>
+
